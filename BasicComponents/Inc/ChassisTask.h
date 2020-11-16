@@ -41,6 +41,10 @@ public:
     uint8_t twistState;
     uint8_t lock;
 
+    void Lock();
+
+    void Unlock();
+
     void Reset();
 
     void Handle();

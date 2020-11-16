@@ -24,12 +24,18 @@ void Remote::LeverControl() {
     Chassis::chassis.SetVelocity(channel.rcol, channel.rrow, channel.lrow * 5);
 
     if (workState == NORMAL_STATE) {
-       //please write your code here;
+        //please write your code here;
         Additional::additional.setBrushVelocity(0);
         Additional::additional.setRollVelocity(0);
+        if (channel.lcol >= 500) {
+            Chassis::chassis.Lock();
+            lockCounter = 5000;
+        }
+
     } else if (workState == ADDITIONAL_STATE_ONE) {
         Additional::additional.setBrushVelocity(5000);
         Additional::additional.setRollVelocity(-5000);
+        Chassis::chassis.Unlock();
         //please write your code here;
     } else if (workState == ADDITIONAL_STATE_TWO) {
         //please write your code here;

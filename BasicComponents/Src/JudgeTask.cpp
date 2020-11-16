@@ -73,6 +73,16 @@ uint8_t client_graphic_busy = 0;
 
 uint8_t tmp_judge;
 
+uint8_t recvMsg[8];
+
+uint8_t numberMsg[2];
+
+uint8_t visualResult;
+
+
+int32_t lockCounter = 0;
+
+
 void InitJudgeUart(void) {
     Referee_Transmit();
     //srand((unsigned)rc_cnt);
@@ -80,6 +90,56 @@ void InitJudgeUart(void) {
         Error_Handler();
     }
     //tx_free = 0;
+}
+
+void initRecvUart(void) {
+    if (HAL_UART_Receive_IT(&RECV_UART, recvMsg, 8) != HAL_OK) {
+        Error_Handler();
+    }
+    if (HAL_UART_Receive_IT(&VISUAL_UART, &visualResult, 1) != HAL_OK) {
+        Error_Handler();
+    }
+}
+
+void sendNumber(uint8_t number) {
+    numberMsg[0] = '@';
+    numberMsg[1] = number;
+    if (HAL_UART_Transmit_IT(&RECV_UART, numberMsg, 2) != HAL_OK) {
+        Error_Handler();
+    }
+}
+
+void dealWithVisualResult() {
+    if (HAL_UART_Receive_IT(&VISUAL_UART, &visualResult, 1) != HAL_OK) {
+        Error_Handler();
+    }
+}
+
+
+void RecvRxCpltCallback() {
+    if (recvMsg[2] == 0x03)//frameSort 机器人判罚
+    {
+        switch (recvMsg[6]) {
+            case 0x02:
+                Chassis::chassis.Lock();
+                lockCounter = 15000;
+                break;
+            case 0x03:
+            case 0x04:
+                Chassis::chassis.Lock();
+                lockCounter = -1;
+                break;
+        }
+    }
+//    if (HAL_UART_Transmit_IT(&VISUAL_UART, recvMsg, 8) != HAL_OK) {
+//        Error_Handler();
+//    }
+//    if (HAL_UART_Transmit_IT(&VISUAL_UART, &visualResult, 1) != HAL_OK) {
+//        Error_Handler();
+//    }
+    if (HAL_UART_Receive_IT(&RECV_UART, recvMsg, 8) != HAL_OK) {
+        Error_Handler();
+    }
 }
 
 void DivideBit_int(int32_t a) {

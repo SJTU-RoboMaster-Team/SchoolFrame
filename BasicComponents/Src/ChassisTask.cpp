@@ -148,6 +148,10 @@ void Chassis::ControlRotate() {
     rotateVelocity = YAW_DIR * rotate.PIDInfo.output;
 }
 
+void Chassis::Lock() { lock = 1; }
+
+void Chassis::Unlock() { lock = 0; }
+
 void Chassis::ChassisDataDecoding() {
     if (!lock) {
         ControlRotate();

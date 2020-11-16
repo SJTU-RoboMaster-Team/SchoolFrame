@@ -57,11 +57,12 @@ void RemoteKeyMouseControlLoop() {
 }
 
 void Count() {
-    Shoot::shoot.Count();
-    AutoAim::autoAim.Count();
+//    Shoot::shoot.Count();
+//    AutoAim::autoAim.Count();
 }
 
 void Car::Reset(void) {
+    initRecvUart();
     Motor::motorInit();
     Chassis::chassis.Reset();
 //    Gimbal::gimbal.Reset(imu);

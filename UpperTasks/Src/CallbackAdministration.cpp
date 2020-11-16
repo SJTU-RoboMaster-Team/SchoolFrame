@@ -20,20 +20,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
         MainControlLoop();
         HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
     }
-    if(htim->Instance == htim7.Instance) {
+    if (htim->Instance == htim7.Instance) {
         Count();
         Remote::remote.Handle();
-        //RemoteKeyMouseControlLoop();
+        if (lockCounter > 0)--lockCounter;
+        else if (lockCounter == 0)Chassis::chassis.Unlock();
+        //RemoteKeyMouseControlLoop();      V 
     }
 }
 
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan) {
     if (hcan == CAN::can1.GetHcan()) {
         CAN::can1.RxHandle();
-	}
-    else {
+    } else {
         CAN::can2.RxHandle();
-	}
+    }
     HAL_CAN_Receive_IT(hcan, CAN_FIFO0);
 }
 
@@ -45,13 +46,20 @@ void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan) {
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
+    uint8_t result;
     if (UartHandle == &RC_UART) {
         Remote::remote.UartRxCpltCallback();
     }
-    if (UartHandle == &AUTOAIM_UART) {
-        AutoAim::autoAim.UartRxCpltCallback();
+    if (UartHandle == &RECV_UART) {
+        RecvRxCpltCallback();
     }
-    if (UartHandle == &JUDGE_UART) {
-		JudgeUartRxCpltCallback();
+    if (UartHandle == &VISUAL_UART) {
+        dealWithVisualResult();
     }
+//    if (UartHandle == &AUTOAIM_UART) {
+//        AutoAim::autoAim.UartRxCpltCallback();
+//    }
+//    if (UartHandle == &JUDGE_UART) {
+//		JudgeUartRxCpltCallback();
+//    }
 }

@@ -144,6 +144,11 @@ int main(void) {
     HAL_TIM_Base_Start_IT(&htim7);
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
+    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_3);
+    HAL_TIM_PWM_Start(&htim5, TIM_CHANNEL_4);
+    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
+    HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
+
 
     HAL_NVIC_EnableIRQ(CAN1_RX0_IRQn);
     HAL_NVIC_EnableIRQ(CAN2_RX0_IRQn);
@@ -151,6 +156,12 @@ int main(void) {
     HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
     HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
     HAL_NVIC_EnableIRQ(TIM7_IRQn);
+//    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 1500);
+//    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 1500);
+//    __HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_3, 1500);
+//    __HAL_TIM_SET_COMPARE(&htim5, TIM_CHANNEL_4, 1500);
+//    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_3, 1500);
+//    __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_2, 1500);
     /* USER CODE END 2 */
 
     /* Infinite loop */

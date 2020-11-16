@@ -16,9 +16,11 @@
 #define __INCLUDE_H__
 
 #define RC_UART                 huart1
+#define RECV_UART               huart6
+#define VISUAL_UART             huart7
 #define JUDGE_UART              huart3
 #define AUTOAIM_UART            huart6
-#define SERVO_UART				huart7
+#define SERVO_UART              huart7
 
 #define INRANGE(NUM, MIN, MAX) \
 {\
@@ -67,8 +69,8 @@
 
 template<class T>
 void MinMax(T &t, T min, T max) {
-    if(t < min) t = min;
-    else if(t > max) t = max;
+    if (t < min) t = min;
+    else if (t > max) t = max;
 }
 
 
@@ -114,3 +116,4 @@ void MinMax(T &t, T min, T max) {
 #include "DanceWithBGM.h"
 
 #endif
+

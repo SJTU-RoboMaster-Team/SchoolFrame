@@ -338,9 +338,14 @@ extern referee_data_t RefereeData;
 extern JudgeState_e JUDGE_State;
 extern robot_status_t cur_robot_status;
 extern int8_t client_graphic_steps;
+extern int32_t lockCounter;
 
+void sendNumber(uint8_t);
+void dealWithVisualResult();
+void initRecvUart();
 void JudgeUartRxCpltCallback();
 void InitJudgeUart();
+void RecvRxCpltCallback();
 void getJudgeState();
 void Referee_Transmit();
 void fakeHeatCalc();
